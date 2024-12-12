@@ -27,7 +27,7 @@ addLights(scene);
 addAxesHelper(scene);
 
 // Time scale to adjust speed of both rotation and orbit
-let timeScale = 1000000; // Speed multiplier
+let timeScale = 100; // Speed multiplier
 
 // Constants
 const earthYearInSeconds = 365.25 * 24 * 60 * 60; // Earth's year in seconds
@@ -68,7 +68,7 @@ let totalEarthRotations = 0;  // This tracks the total rotations for one full or
 // Track the total orbital progress
 let totalOrbitProgress = 0;
 
-// Create a div to display speed info
+// Speed display
 const speedDisplay = document.createElement('div');
 speedDisplay.style.position = 'absolute';
 speedDisplay.style.top = '10px';
@@ -77,11 +77,37 @@ speedDisplay.style.color = 'white';
 speedDisplay.style.fontSize = '18px';
 document.body.appendChild(speedDisplay);
 
+// Slider and input controls
+const timeScaleSlider = document.getElementById('timeScaleSlider');
+const timeScaleInput = document.getElementById('timeScaleInput');
+
+// Function to update timeScale
+function updateTimeScale(newTimeScale) {
+    timeScale = newTimeScale;
+
+    // Sync slider and input
+    timeScaleSlider.value = newTimeScale;
+    timeScaleInput.value = newTimeScale;
+}
+
+// Add event listener for slider
+timeScaleSlider.addEventListener('input', (event) => {
+    updateTimeScale(Number(event.target.value));
+});
+
+// Add event listener for input box
+timeScaleInput.addEventListener('change', (event) => {
+    let newTimeScale = Number(event.target.value);
+
+    // Clamp the value between 1 and 5000
+    newTimeScale = Math.max(1, Math.min(5000, newTimeScale));
+
+    updateTimeScale(newTimeScale);
+});
+
 // Function to calculate actual orbital speed in km/h
 function calculateOrbitalSpeed() {
-    // Real orbital velocity in km/h (orbital speed of Earth around the Sun)
     const realOrbitalSpeedKmH = (2 * Math.PI * realEarthOrbitalRadiusKm) / earthYearInSeconds * 3600; // km/h
-    // Apply the time scale to simulate different speeds in the simulation
     return realOrbitalSpeedKmH * timeScale;
 }
 
@@ -89,69 +115,41 @@ function calculateOrbitalSpeed() {
 function calculateRotationalSpeed() {
     const earthCircumference = 2 * Math.PI * earthEquatorialRadius; // Circumference of Earth in km
     const rotationalSpeedKmPerSec = earthCircumference / earthDayInSeconds; // Speed in km/sec
-    return rotationalSpeedKmPerSec * 3600; // Convert to km/h
-}
-
-// Function to validate and log after one full orbit
-function validateRotationsDuringOrbit() {
-    // Log the total rotations after one full cycle
-    console.log(`Total Earth rotations after one orbit: ${totalEarthRotations}`);
-
-    // Check if Earth completed 365 rotations after one full orbit around the Sun
-    if (Math.abs(totalEarthRotations - expectedRotationsPerOrbit) < 1) {
-        console.log("Validation: Earth has completed 365 rotations as expected.");
-    } else {
-        console.log("Validation: Earth has NOT completed the correct number of rotations.");
-    }
-
-    // Reset for next orbit
-    totalEarthRotations = 0;
+    return rotationalSpeedKmPerSec * 3600 * timeScale;
 }
 
 // Animation Loop
 function animate() {
     requestAnimationFrame(animate);
 
-    // Update time step
-    const deltaTime = timeScale * (1 / 60); // Assuming 60fps
+    const deltaTime = Math.pow(timeScale, 2) * (1 / 60); // Assuming 60fps with exponential scaling
 
-    // Update Earth's orbital position
     orbitalParams.earth.theta += orbitalParams.earth.angularSpeed * deltaTime;
     earthOrbit.rotation.y = orbitalParams.earth.theta;
 
-    // Update Earth's axial rotation (1 full rotation per day)
     currentEarthRotation += orbitalParams.earth.rotationSpeed * deltaTime;
 
-    // Log each full rotation (when Earth completes 360 degrees)
     if (currentEarthRotation >= 2 * Math.PI) {
-        currentEarthRotation -= 2 * Math.PI; // Reset after one full rotation
-        totalEarthRotations += 1; // Increment the total rotations after a full day
-        console.log(`Earth completed a full rotation! Total rotations: ${totalEarthRotations}`);
+        currentEarthRotation -= 2 * Math.PI;
+        totalEarthRotations += 1;
     }
 
     earth.rotation.y = currentEarthRotation;
 
-    // Check if the Earth has completed one full orbit (360 degrees)
     if (orbitalParams.earth.theta >= 2 * Math.PI) {
-        // Reset Earth's position after one full orbit
         orbitalParams.earth.theta -= 2 * Math.PI;
-
-        // Validate and reset total rotations after one full cycle around the Sun
-        validateRotationsDuringOrbit();
+        totalEarthRotations = 0;
     }
 
-    // Calculate the current speeds
-    const orbitalSpeedKmH = calculateOrbitalSpeed(); // Actual speed adjusted for timeScale
-    const rotationalSpeedKmH = calculateRotationalSpeed(); // Actual rotational speed
+    const orbitalSpeedKmH = calculateOrbitalSpeed();
+    const rotationalSpeedKmH = calculateRotationalSpeed();
 
-    // Update speed display with the current speeds
     speedDisplay.innerHTML = `
         Earth Orbital Speed: ${orbitalSpeedKmH.toFixed(2)} km/h<br>
         Earth Rotation Speed: ${rotationalSpeedKmH.toFixed(2)} km/h<br>
         Earth Spins this Orbit: ${totalEarthRotations}<br>
     `;
 
-    // Render Scene
     renderer.render(scene, camera);
 }
 
