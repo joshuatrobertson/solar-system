@@ -27,16 +27,19 @@ addLights(scene);
 addAxesHelper(scene);
 
 // Time scale to adjust speed of both rotation and orbit
-let timeScale = 20000; // Speed multiplier
+let timeScale = 1000000; // Speed multiplier
 
 // Constants
 const earthYearInSeconds = 365.25 * 24 * 60 * 60; // Earth's year in seconds
 const earthDayInSeconds = 24 * 60 * 60; // Earth's day in seconds
+const earthEquatorialRadius = 6378; // Earth's equatorial radius in km
+const realEarthOrbitalRadiusKm = 149.6e6; // Real Earth's distance from the Sun in km (149.6 million km)
+const orbitalRadius = 10; // Distance from the Sun in the simulation (scaled down)
 
 // Orbital Parameters
 const orbitalParams = {
     earth: {
-        radius: 10, // Distance from the Sun (scaled down)
+        radius: orbitalRadius, // Distance from the Sun (scaled down)
         theta: 0, // Initial angle in the orbit
         angularSpeed: (2 * Math.PI) / earthYearInSeconds, // Orbital speed (radians/second)
         rotationSpeed: (2 * Math.PI) / earthDayInSeconds, // Rotational speed (radians/second)
@@ -64,6 +67,30 @@ let totalEarthRotations = 0;  // This tracks the total rotations for one full or
 
 // Track the total orbital progress
 let totalOrbitProgress = 0;
+
+// Create a div to display speed info
+const speedDisplay = document.createElement('div');
+speedDisplay.style.position = 'absolute';
+speedDisplay.style.top = '10px';
+speedDisplay.style.left = '10px';
+speedDisplay.style.color = 'white';
+speedDisplay.style.fontSize = '18px';
+document.body.appendChild(speedDisplay);
+
+// Function to calculate actual orbital speed in km/h
+function calculateOrbitalSpeed() {
+    // Real orbital velocity in km/h (orbital speed of Earth around the Sun)
+    const realOrbitalSpeedKmH = (2 * Math.PI * realEarthOrbitalRadiusKm) / earthYearInSeconds * 3600; // km/h
+    // Apply the time scale to simulate different speeds in the simulation
+    return realOrbitalSpeedKmH * timeScale;
+}
+
+// Function to calculate rotational speed in km/h
+function calculateRotationalSpeed() {
+    const earthCircumference = 2 * Math.PI * earthEquatorialRadius; // Circumference of Earth in km
+    const rotationalSpeedKmPerSec = earthCircumference / earthDayInSeconds; // Speed in km/sec
+    return rotationalSpeedKmPerSec * 3600; // Convert to km/h
+}
 
 // Function to validate and log after one full orbit
 function validateRotationsDuringOrbit() {
@@ -112,6 +139,17 @@ function animate() {
         // Validate and reset total rotations after one full cycle around the Sun
         validateRotationsDuringOrbit();
     }
+
+    // Calculate the current speeds
+    const orbitalSpeedKmH = calculateOrbitalSpeed(); // Actual speed adjusted for timeScale
+    const rotationalSpeedKmH = calculateRotationalSpeed(); // Actual rotational speed
+
+    // Update speed display with the current speeds
+    speedDisplay.innerHTML = `
+        Earth Orbital Speed: ${orbitalSpeedKmH.toFixed(2)} km/h<br>
+        Earth Rotation Speed: ${rotationalSpeedKmH.toFixed(2)} km/h<br>
+        Earth Spins this Orbit: ${totalEarthRotations}<br>
+    `;
 
     // Render Scene
     renderer.render(scene, camera);
