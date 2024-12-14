@@ -74,7 +74,7 @@ function setupScene() {
   document.body.appendChild(speedDisplay);
 
   // FOR TESTING // todo
-  const light = new THREE.AmbientLight(0x404040); // soft white light
+  const light = new THREE.AmbientLight(0x404040, 1); // soft white light
   scene.add(light);
 
   // Slider and input controls
@@ -100,7 +100,7 @@ function setupScene() {
     let newTimeScale = Number(event.target.value);
 
     // Clamp the value between 1 and 2000
-    newTimeScale = Math.max(1, Math.min(50000, newTimeScale));
+    newTimeScale = Math.max(1, Math.min(500000, newTimeScale));
 
     updateTimeScale(newTimeScale);
   });

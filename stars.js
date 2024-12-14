@@ -6,9 +6,9 @@ export function createStarField(scene) {
     const positions = new Float32Array(numStars * 3);
 
     for (let i = 0; i < numStars; i++) {
-        positions[i * 3] = Math.random() * 2000 - 1000;
-        positions[i * 3 + 1] = Math.random() * 2000 - 1000;
-        positions[i * 3 + 2] = Math.random() * 2000 - 1000;
+        positions[i * 3] = Math.random() * 15000 - 10000;
+        positions[i * 3 + 1] = Math.random() * 15000 - 10000;
+        positions[i * 3 + 2] = Math.random() * 15000 - 10000;
     }
 
     const geometry = new THREE.BufferGeometry();
@@ -18,7 +18,7 @@ export function createStarField(scene) {
     const material = new THREE.PointsMaterial({
         color: 0xffffff,
         size: 2,  // Increase the size for larger stars
-        sizeAttenuation: false,
+        sizeAttenuation: true,
         transparent: true,
         opacity: 0.8,
     });

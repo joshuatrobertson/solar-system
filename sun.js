@@ -21,7 +21,7 @@ export function createSun() {
     const sun = new THREE.Mesh(sunGeometry, sunMaterial);
 
     // Create a PointLight at the center of the Sun sphere so it shines in all directions
-    const pointLight = new THREE.PointLight(0xffffff, 200, 100000000);  // Color, intensity, distance
+    const pointLight = new THREE.PointLight(0xffffff, 400, 100000000);  // Color, intensity, distance
     pointLight.position.set(0, 0, 0); // Position the point light at the center of the Sun
     sun.add(pointLight);  // Add the point light to the Sun mesh
 
