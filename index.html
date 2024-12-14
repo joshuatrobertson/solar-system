@@ -1,42 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Earth Orbit Simulation</title>
-    <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-        }
-        #controls {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            color: white;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Earth Orbit Simulation</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
 <div id="controls">
-    <label for="timeScaleSlider">Time Scale:</label>
-    <input
-            type="range"
-            id="timeScaleSlider"
-            min="1"
-            max="2000"
-            value="100"
-            style="width: 300px;"
-    />
-    <input
-            type="number"
-            id="timeScaleInput"
-            min="1"
-            max="2000"
-            value="100"
-            style="width: 60px; margin-left: 10px;"
-    />
+  <label for="timeScaleSlider">Time Scale:</label>
+  <input type="range" id="timeScaleSlider" min="1" max="50000" value="100" style="width: 300px" />
+  <input type="number" id="timeScaleInput" min="1" max="50000" value="100" style="width: 60px; margin-left: 10px" />
 </div>
-<script type="module" src="/src/main.js"></script>
+
+<script type="module" src="./main.js"></script>
 </body>
 </html>

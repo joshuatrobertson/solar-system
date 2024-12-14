@@ -1,0 +1,47 @@
+/* Ensure the body takes up the full height of the screen */
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* This will space out the elements, pushing the controls.js to the bottom */
+}
+
+/* Position the speed display at the top */
+#speedDisplay {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: white;
+    font-size: 18px;
+    z-index: 10; /* Ensure it's on top */
+}
+
+/* Position the controls.js at the bottom */
+#controls {
+    position: absolute;
+    bottom: 20px; /* Slight gap from the bottom */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Slider styling */
+#timeScaleSlider {
+    width: 300px;
+}
+
+/* Input box styling */
+#timeScaleInput {
+    width: 60px;
+    margin-left: 10px;
+}
+
+/* Optional: Style the controls.js for better appearance */
+#controls label {
+    color: white;
+    font-size: 16px;
+    margin-bottom: 5px;
+}

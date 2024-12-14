@@ -1,18 +1,20 @@
 {
-  "dependencies": {
-    "three": "^0.171.0"
-  },
   "name": "threejssolarsystem",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "devDependencies": {
-    "vite": "^6.0.3"
-  },
+  "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "repository": {
+    "type": "git",
+    "url": "git@github-josh:joshuatrobertson/solar-system.git"
+  },
+  "private": true,
+  "dependencies": {
+    "@tweenjs/tween.js": "^25.0.0",
+    "three": "^0.171.0",
+    "troika-three-text": "^0.52.2",
+    "tween": "^0.9.0"
+  }
 }
