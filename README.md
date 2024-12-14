@@ -1,4 +1,7 @@
+**See the site here** - https://solar-system-9q9vlyw7d-joshuatrobertsons-projects.vercel.app/
 # **3D Solar System Simulation**
+
+## 
 
 🚀 **Explore the solar system in 3D!**  
 This project uses **Three.js** to create an interactive simulation of the solar system, complete with orbiting planets aligned with real-world physics, a glowing Sun, and a background of 10,000 distant stars.
