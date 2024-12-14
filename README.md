@@ -31,7 +31,7 @@ Follow these steps to set up and run the project locally:
 1. **Clone the repository**:
    ```bash
    git clone https://github.com/joshuatrobertson/solar-system.git
-   cd 3D-Solar-System
+   cd solar-system
    ```
 
 2. **Install dependencies**:
@@ -59,7 +59,7 @@ Follow these steps to set up and run the project locally:
 
 You can modify the simulation by editing the `config.js` file:
 
-- **Planet Properties**: Adjust size, orbit radius, speed, and texture  
+- **Planet Properties**: Adjust size, orbit radius, speed, texture, or sun distance to globally change the distance of planets 
 - **Starfield**: Modify the density and position of stars  
 - **Lighting**: Customise the Sun's glow and light intensity  
 
